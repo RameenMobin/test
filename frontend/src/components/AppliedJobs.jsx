@@ -5,7 +5,7 @@ function AppliedJobs() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    fetch('http://localhost:5001/api/jobs/applied', {
+    fetch('https://test-trp1.onrender.com/api/jobs/applied', {
       headers: {
         Authorization: `Bearer ${token}`,
       }

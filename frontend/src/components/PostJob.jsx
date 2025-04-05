@@ -24,7 +24,7 @@ function PostJob() {
 
   // Fetch jobs on mount
   useEffect(() => {
-    fetch('http://localhost:5001/api/jobs')
+    fetch('https://test-trp1.onrender.com/api/jobs')
       .then((res) => res.json())
       .then((data) => setJobs(data))
       .catch((err) => console.error('Error fetching jobs:', err));
@@ -41,7 +41,7 @@ function PostJob() {
     const token = localStorage.getItem('token');
 
     try {
-      const res = await fetch('http://localhost:5001/api/jobs', {
+      const res = await fetch('https://test-trp1.onrender.com/api/jobs', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

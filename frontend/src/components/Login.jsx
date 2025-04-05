@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-
+import { auth, provider } from '../firebase';
+import { signInWithPopup } from 'firebase/auth';
 function Login({ closeModal, switchToRegister, onLoginSuccess }) {
   const [form, setForm] = useState({ email: '', password: '' });
 
@@ -11,7 +12,7 @@ function Login({ closeModal, switchToRegister, onLoginSuccess }) {
     e.preventDefault();
 
     try {
-      const res = await fetch('http://localhost:5001/api/auth/login', {
+      const res = await fetch('https://test-trp1.onrender.com/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
@@ -29,6 +30,42 @@ function Login({ closeModal, switchToRegister, onLoginSuccess }) {
     } catch (err) {
       console.error(err);
       alert('Server error');
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      // 1. Sign in with Firebase popup
+      const result = await signInWithPopup(auth, provider);
+      
+      // 2. Get Firebase ID token
+      const idToken = await result.user.getIdToken();
+      const { displayName, photoURL, email } = result.user;
+      console.log("USERRR", result.user)
+      localStorage.setItem('user', JSON.stringify({ displayName, photoURL, email }));
+      localStorage.setItem('token', idToken);
+      console.log("Firebase sign-in successful, sending ID token to backend...");
+  
+      // 3. Send Firebase ID token to backend
+      const res = await fetch('https://test-trp1.onrender.com/api/auth/google', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idToken }),
+      });
+      console.log("HERHEHRKE", res)
+  
+      const data = await res.json();
+  
+      if (res.ok) {
+        localStorage.setItem('token', data.token);
+        alert('Login successful!');
+        window.location.reload();
+      } else {
+        alert(data.message || 'Login failed');
+      }
+    } catch (err) {
+      console.error('Google login error:', err);
+      alert('Google login failed');
     }
   };
 
@@ -72,7 +109,13 @@ function Login({ closeModal, switchToRegister, onLoginSuccess }) {
         >
           Login
         </button>
-
+        <button
+          type="button"
+          onClick={handleGoogleLogin}
+          className="w-full mt-3 bg-red-500 text-white py-2 rounded hover:bg-red-600"
+        >
+          🔐 Sign in with Google
+        </button>
         <p className="mt-4 text-sm text-center text-gray-600 dark:text-gray-400">
           Don’t have an account?{' '}
           <button
@@ -83,6 +126,8 @@ function Login({ closeModal, switchToRegister, onLoginSuccess }) {
             Register here
           </button>
         </p>
+
+       
       </form>
     </div>
   );

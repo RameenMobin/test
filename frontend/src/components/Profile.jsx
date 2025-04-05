@@ -9,21 +9,21 @@ function Profile() {
   useEffect(() => {
     const token = localStorage.getItem('token');
 
-    fetch('http://localhost:5001/api/auth/profile', {
+    fetch('https://test-trp1.onrender.com/api/auth/profile', {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
       .then((data) => setUser(data))
       .catch((err) => console.error('Error fetching profile:', err));
 
-    fetch('http://localhost:5001/api/jobs/applied', {
+    fetch('https://test-trp1.onrender.com/api/jobs/applied', {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
       .then((data) => setAppliedJobs(data))
       .catch((err) => console.error('Error fetching applied jobs:', err));
 
-    fetch('http://localhost:5001/api/jobs/posted/responses', {
+    fetch('https://test-trp1.onrender.com/api/jobs/posted/responses', {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
