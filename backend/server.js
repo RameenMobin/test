@@ -28,3 +28,5 @@ mongoose
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   })
   .catch((err) => console.error(err));
+
+  //mongodb+srv://atlas-sample-dataset-load-67f1aef6b89c807b623c1913:<db_password>@cluster0.hkoywph.mongodb.net/?

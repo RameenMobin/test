@@ -7,12 +7,13 @@ function Login({ closeModal, switchToRegister, onLoginSuccess }) {
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
-
+  const deployedURL = "https://test-trp1.onrender.com";
+  // const localURL = "http://localhost:5001";
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await fetch('https://test-trp1.onrender.com/api/auth/login', {
+      const res = await fetch(deployedURL+'/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
@@ -47,7 +48,7 @@ function Login({ closeModal, switchToRegister, onLoginSuccess }) {
       console.log("Firebase sign-in successful, sending ID token to backend...");
   
       // 3. Send Firebase ID token to backend
-      const res = await fetch('https://test-trp1.onrender.com/api/auth/google', {
+      const res = await fetch(localURL+'/api/auth/google', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ idToken }),
