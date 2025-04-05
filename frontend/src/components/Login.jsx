@@ -48,7 +48,7 @@ function Login({ closeModal, switchToRegister, onLoginSuccess }) {
       console.log("Firebase sign-in successful, sending ID token to backend...");
   
       // 3. Send Firebase ID token to backend
-      const res = await fetch(localURL+'/api/auth/google', {
+      const res = await fetch(deployedURL+'/api/auth/google', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ idToken }),
